@@ -45,7 +45,7 @@ class toDo extends Component {
             check.push(false);
         }
         this.setState({list, check});
-        console.log(list);
+        // console.log(list);
     }
 
     GetValue = (e)=> {
@@ -57,7 +57,7 @@ class toDo extends Component {
         let value = this.state.value;
         let listObject = [];
         value === "" ? {}: this.state.list.push(value);
-        console.log(this.state.list);
+        // console.log(this.state.list);
         // this.state.list.map ((value, key) => {
         //     return (listObject.push ({
         //         id : key,
@@ -74,16 +74,16 @@ class toDo extends Component {
         this.setState({value : ""});
     }
 
-    // clickHandle = (key) => {
-    //     // console.log(key.target.value);
-    //     let keyCheck = key.target.value
-    //     console.log(key.target);
-    //     this.state.list.map((messages, key) => {
-    //         // console.log(typeof(keyCheck), typeof(key));
-    //         // console.log(messages[key]);
-    //         keyCheck == key ?  this.state.check ? this.setState({check: false}): this.setState({check: true}) :{}
-    //     });
-    // }
+    clickHandle = (key) => {
+        // console.log(key.target.value);
+        let keyCheck = key.target.value
+        // console.log(key.target);
+        this.state.list.map((messages, key) => {
+            // console.log(typeof(keyCheck), typeof(key));
+            // console.log(messages[key]);
+            keyCheck == key ?  this.state.check ? this.setState({check: false}): this.setState({check: true}) :{}
+        });
+    }
 
     clickHandle = (index) => {
         let check = this.state.check;
@@ -103,7 +103,6 @@ class toDo extends Component {
 
     render() {
         const { classes } = this.props;
-        // console.log(this.props);
         return(
             <div>
                 <div className="toDoWrapper">
@@ -143,17 +142,11 @@ class toDo extends Component {
                                                     <Checkbox
                                                         checked={this.state.check[index]}
                                                         onClick={()=> {this.clickHandle(index)}}
-                                                        iconStyle={{fill: 'white'}}
                                                     />
                                                 </div>
                                                 <div className="message">
                                                     <p style={this.state.check[index]?{textDecoration:"line-through"}:{textDecoration: "none"}}>{messages}</p>
                                                 </div>
-                                                {/* <div className="editButton">
-                                                    <Button variant="fab" color="secondary" aria-label="Edit" >
-                                                        <Icon>edit_icon</Icon>
-                                                    </Button>
-                                                </div> */}
                                                 <div className="deleteButton">
                                                     <IconButton aria-label="Delete" onClick={() => {this.deleteHandle(index)}}>
                                                         <DeleteIcon />
@@ -173,29 +166,6 @@ class toDo extends Component {
                         </Grid>
                         <Grid item xs={12} sm={2} md={2} lg={2}></Grid>
                     </Grid>
-                    {/* <div style={{flexGrow:"1", backgroundColor: "green"}}></div>
-                    <div className="toDo">
-                        <div className="inputFieldWrapper">
-                            <div className="inputField">
-                                <TextField
-                                    id="outlined-textarea"
-                                    label="To Do"
-                                    placeholder="To Do Assignment..."
-                                    multiline
-                                    // className={classes.textField}
-                                    margin="normal"
-                                    variant="outlined"
-                                    fullWidth = {true}
-                                />
-                            </div>
-                            <div className="addButton">
-                                <Button variant="fab" color="primary" aria-label="Add" >
-                                    <AddIcon />
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                    <div style={{flexGrow:"1", backgroundColor: "green"}}></div> */}
                 </div>
             </div> 
         );

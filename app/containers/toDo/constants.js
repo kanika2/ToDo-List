@@ -1,0 +1,1 @@
+export const STATUS = 'boilerplate/toDo/STATUS';

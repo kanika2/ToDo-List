@@ -8,9 +8,16 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Checkbox from '@material-ui/core/Checkbox';
 import "./toDo.css"
 
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
+import injectReducer from 'utils/injectReducer';
+import reducer from './reducer';
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, Paper } from "@material-ui/core";
+import { checkStatus } from "./action";
+import { makeSelectToDo } from "./selectors";
 
 const styles = theme => ({
     input : {
@@ -32,6 +39,9 @@ class toDo extends Component {
             value : "",
             list : [],
         }
+        let statusValue = false;
+        this.props.statusCheck(statusValue);
+        console.log(statusValue);
     }
 
     componentDidMount () {
@@ -103,6 +113,7 @@ class toDo extends Component {
 
     render() {
         const { classes } = this.props;
+        console.log("render", this.props);
         return(
             <div>
                 <div className="toDoWrapper">
@@ -176,5 +187,34 @@ toDo.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(toDo);
+// export default withStyles(styles)(toDo);
 
+export function mapDispatchToProps(dispatch) {
+    console.log("dispatch", dispatch);
+    return {
+        statusCheck : (statusValue) => {dispatch(checkStatus(statusValue))},
+    };
+}
+  
+const mapStateToProps = createStructuredSelector({
+    toDo : makeSelectToDo(),
+});
+
+// const withConnect = connect(
+//   mapStateToProps,
+//   mapDispatchToProps,
+// );
+
+const withReducer = injectReducer({ key: 'todo', reducer });
+//   const withSaga = injectSaga({ key: 'home', saga });
+  
+// export default compose(
+//   withReducer,
+//   // withSaga,
+// //   withConnect,
+// )( withStyles(styles)(toDo));
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(withStyles(styles)(toDo));

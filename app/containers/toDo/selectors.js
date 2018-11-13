@@ -4,6 +4,6 @@ import { initialState } from './reducer';
 const selectToDo = state => state.get('todo', initialState);
 
 const makeSelectToDo = () =>
-  createSelector(selectToDo, todoState => todoState.get("apiData"));
+  createSelector(selectToDo, todoState => todoState.get("apiData","statusValue"));
 // "statusValue"
 export { selectToDo, makeSelectToDo  };

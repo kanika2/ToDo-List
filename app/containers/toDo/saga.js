@@ -1,5 +1,5 @@
 import { call, put, select, takeLatest , takeEvery} from 'redux-saga/effects';
-import {STATUS} from "./constants";
+import {STATUS, API_SUCCESS} from "./constants";
 import axios from "axios";
 
 // axios.get('/api');
@@ -17,7 +17,7 @@ export function* apiCall () {
     const response = yield call(axios.get, "http://jsonplaceholder.typicode.com/posts");
     console.log("response of the request", response.data);
     // put helps in returning an action to the store from where we can use the data in our app
-    yield put({type: "API_SUCCESS", data: response.data});
+    yield put({type: API_SUCCESS, data: response.data});
     console.log("put success");
   } catch (e) {
     //catch error

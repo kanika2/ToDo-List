@@ -6,7 +6,7 @@ import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Checkbox from '@material-ui/core/Checkbox';
-import "./toDo.css"
+import "./toDo.css";
 
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
@@ -49,6 +49,7 @@ class toDo extends Component {
     }
 
     componentDidMount () {
+        console.log("===============prop============", this.props);
         this.props.statusCheck(this.state.statusValue);
         console.log(this.state.statusValue);
         let listLength = 0;
@@ -172,6 +173,12 @@ class toDo extends Component {
                                             </div>
                                         );
                                     })}
+                                    <p>API Data</p>
+                                    {
+                                        this.props.toDo.map((v,key)=>{
+                                            return <p key={key}>{v.title}</p>
+                                        })
+                                    }
                                     <div className="clearAllButtonWrapper">
                                         <button
                                             className="clearAllButton"

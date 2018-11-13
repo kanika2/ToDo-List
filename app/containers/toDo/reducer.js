@@ -9,17 +9,19 @@ export const initialState = fromJS({
 });
 
 function todoReducer(state = initialState, action) {
+  console.log("reducer action", action.type);
   console.log("reducer", action.data);
   switch (action.type) {
     case STATUS:
+      console.log("reducer status");
       return state.set('statusValue', action.status);
     case API_SUCCESS:
       console.log("API_SUCCESS");
-      return {
-        ...state,
-        apiData : action.data
-      }
+      return state.set(
+        'apiData' , action.data
+      )
     default:
+      console.log("reducer default");
       return state;
   }
 }

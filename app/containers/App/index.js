@@ -17,14 +17,14 @@ import { Switch, Route } from 'react-router-dom';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import toDo from '../toDo/Loadable';
-import selectionPage from '../selectionPage/Loadable';
+// import selectionPage from '../selectionPage/Loadable';
 
 export default function App() {
   return (
     <div>
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route path="/selection" component={selectionPage} />
+        {/* <Route path="/selection" component={selectionPage} /> */}
         <Route path = "/toDo" component={toDo} />
         <Route component={NotFoundPage} />
       </Switch>

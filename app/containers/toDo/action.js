@@ -1,4 +1,4 @@
-import { STATUS } from './constants';
+import { STATUS, API_SUCCESS, API_FAIL } from './constants';
 
 /**
  * Changes the input field of the form
@@ -8,7 +8,10 @@ import { STATUS } from './constants';
  *   An action object with a type of CHANGE_USERNAME
  */
 export function checkStatus(status) {
+  console.log("action", status);
   return {
     type: STATUS,
+    status : true,
   };
 }
+

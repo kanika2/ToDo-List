@@ -1,32 +1,37 @@
-// import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest , takeEvery} from 'redux-saga/effects';
+import {STATUS} from "./constants";
+import axios from "axios";
 
-// // import request from 'utils/request';
-// import {makeSelectToDo } from 'containers/toDo/selectors';
+// axios.get('/api');
+//  NOTE: export default function* something: here "*" means that this function is the generator function
+// means it will not go through every line again in the function but will just start from where it left
+// yield act as return in generator functions. You call yield in a normal function but it is only allowed in a generator
 
-// /**
-//  * Github repos request/response handler
-//  */
-// export function* getToDoData() {
-//   // Select username from store
-//   const value = yield select(makeSelectToDo());
-//   const requestURL = `thttp://localhost:3000/toDo/${value}`;
 
-//   try {
-//     // Call our request helper (see 'utils/request')
-//     const toDo = yield call(request, requestURL);
-//     yield put(reposLoaded(repos, username));
-//   } catch (err) {
-//     yield put(repoLoadingError(err));
-//   }
-// }
+// 1. create worker saga: yhan hum sara saga ka kaam likhenge
+export function* apiCall () {
+  // console.log("api call");
+  try { 
+    console.log("api call");
+    //  call helps in making an api request
+    const response = yield call(axios.get, "http://jsonplaceholder.typicode.com/posts");
+    console.log("response of the request", response.data);
+    // put helps in returning an action to the store from where we can use the data in our app
+    yield put({type: "API_SUCCESS", data: response.data});
+    console.log("put success");
+  } catch (e) {
+    //catch error
+    console.log("request failed!");
+    yield put({type: "API_FAIL", message: e.message});
+  }
 
-// /**
-//  * Root saga manages watcher lifecycle
-//  */
-// export default function* githubData() {
-//   // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
-//   // By using `takeLatest` only the result of the latest API call is applied.
-//   // It returns task descriptor (just like fork) so we can continue execution
-//   // It will be cancelled automatically on component unmount
-//   yield takeLatest(LOAD_REPOS, getRepos);
-// }
+}
+
+// 2. create watcher saga: yhan ye watch krega ki jb jb action dispatch hua hai tb us action k according kya krna hai
+
+export default function* watchCreateCall() {
+  console.log("redux saga is running");
+  yield takeEvery(STATUS, apiCall );
+}
+
+// 3. create rootsaga: yhan hum ek sath sare saga ko call krte hai

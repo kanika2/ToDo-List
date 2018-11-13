@@ -10,14 +10,17 @@ import "./toDo.css"
 
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import injectReducer from 'utils/injectReducer';
+import injectReducer from '../../utils/injectReducer';
+import injectSaga from "../../utils/injectSaga";
 import reducer from './reducer';
+import saga from "./saga"
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, Paper } from "@material-ui/core";
 import { checkStatus } from "./action";
 import { makeSelectToDo } from "./selectors";
+import { connect } from "react-redux";
 
 const styles = theme => ({
     input : {
@@ -38,13 +41,16 @@ class toDo extends Component {
             check : [],
             value : "",
             list : [],
+            statusValue : false,
         }
-        let statusValue = false;
-        this.props.statusCheck(statusValue);
-        console.log(statusValue);
+        // let statusValue = false;
+        // this.props.statusCheck(statusValue);
+        // console.log(statusValue);
     }
 
     componentDidMount () {
+        this.props.statusCheck(this.state.statusValue);
+        console.log(this.state.statusValue);
         let listLength = 0;
         let check = [];
         // console.log("componentDidMount")
@@ -113,7 +119,7 @@ class toDo extends Component {
 
     render() {
         const { classes } = this.props;
-        console.log("render", this.props);
+        console.log("render", this.props.toDo);
         return(
             <div>
                 <div className="toDoWrapper">
@@ -200,21 +206,22 @@ const mapStateToProps = createStructuredSelector({
     toDo : makeSelectToDo(),
 });
 
-// const withConnect = connect(
-//   mapStateToProps,
-//   mapDispatchToProps,
-// );
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 const withReducer = injectReducer({ key: 'todo', reducer });
-//   const withSaga = injectSaga({ key: 'home', saga });
+const withSaga = injectSaga({ key: "todo", saga });
   
-// export default compose(
-//   withReducer,
-//   // withSaga,
-// //   withConnect,
-// )( withStyles(styles)(toDo));
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect,
+)( withStyles(styles)(toDo));
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(withStyles(styles)(toDo));
+// export default connect(
+//     mapStateToProps,
+//     mapDispatchToProps,
+// )(withStyles(styles)(toDo)); //this works
+// export default withStyles(styles)(toDo);  //this works
